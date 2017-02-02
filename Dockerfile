@@ -27,7 +27,6 @@ RUN /sbin/ldconfig
 RUN apt-get update && apt-get install -y r-cran-rjava
 #------------------------
 
-
 #------------------------ For sparklyr
 # Spark version
 ENV SPARK_VERSION 2.0.2
@@ -54,6 +53,7 @@ ENV RSTUDIO_SPARK_HOME /home/rstudio/.cache/spark/spark-2.0.2-bin-hadoop2.7
 
 # Install supervisor as several processes need to be run
 RUN apt-get update && apt-get install -y openssh-server apache2 supervisor
+
 RUN mkdir -p /var/lock/apache2 /var/run/apache2 /var/run/sshd /var/log/supervisor
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
