@@ -32,7 +32,8 @@ docker service create --name spark-master \
  
 ## Worker Usage
  
-May be a bit more bloat in the worker than necessary, but for ease use the same image
+May be a bit more bloat in the worker than necessary, but for ease use the same image.
+Check the workers have registered on the spark master UI
 
 ```
  docker service create --name spark-worker \
