@@ -1,7 +1,7 @@
-FROM rocker/hadleyverse
+FROM rocker/hadleyverse  # Use hadleyverse as it has the legacy rJava installs tidyverse cut
 
 # Spark version
-ENV SPARK_VERSION 2.0.2
+ENV SPARK_VERSION 2.0.2  # Could be and ARG to choose spark install
 
 # Install sparklyr
 RUN install2.r sparklyr
@@ -9,9 +9,8 @@ RUN install2.r sparklyr
 # Should probably use Sys.getenv and paste
 RUN R -e 'sparklyr::spark_install("'$SPARK_VERSION'")'
 
-# Move spark install to rstudio user
-RUN echo 'rsession-which-r=/usr/local/bin/R' \
-    > /etc/rstudio/rserver.conf \
+# Tell rserver which R install to use and move spark install to rstudio user
+RUN echo 'rsession-which-r=/usr/local/bin/R' > /etc/rstudio/rserver.conf \
   && mkdir /home/rstudio/.cache \
   && mv /root/.cache/spark/ /home/rstudio/.cache \
   && chown -R rstudio:rstudio /home/rstudio/.cache \
