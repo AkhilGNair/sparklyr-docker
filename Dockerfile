@@ -1,4 +1,5 @@
-FROM rocker/hadleyverse  # Use hadleyverse as it has the legacy rJava installs tidyverse cut
+# Use hadleyverse as it has the legacy rJava installs tidyverse cut
+FROM rocker/hadleyverse
 
 # Spark version
 ENV SPARK_VERSION 2.0.2  # Could be and ARG to choose spark install
