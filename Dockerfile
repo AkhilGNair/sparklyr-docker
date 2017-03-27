@@ -25,4 +25,6 @@ RUN mkdir -p /var/lock/apache2 /var/run/apache2 /var/run/sshd /var/log/superviso
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
+COPY spark-defaults.conf $RSTUDIO_SPARK_HOME/conf
+
 CMD ["/usr/bin/supervisord"]
