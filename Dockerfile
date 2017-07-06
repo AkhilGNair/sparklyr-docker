@@ -1,14 +1,17 @@
 # Use hadleyverse as it has the legacy rJava installs tidyverse cut
-FROM rocker/hadleyverse:3.3.1
+FROM rocker/verse:latest
 
-# Spark version - TODO: ARG to choose spark install?
+# Versioning
 ENV SPARK_VERSION 2.0.2
+ENV SPARKLYR_VERSION 0.5.5
+ENV DPLYR_VERSION 0.5.0
 
-# Install sparklyr
-# TODO: Need dev version as CRAN version doesn't have some S3 methods from a previous bugfix
-Run R -e 'devtools::install_github("rstudio/sparklyr")'
+# Add CRAN mirror
+RUN echo 'options(repos = c(CRAN = "https://cran.rstudio.com"))' > .Rprofile
 
-# Should probably use Sys.getenv and paste
+# Install dplyr, sparklyr, spark via sparklyr
+Run R -e 'devtools::install_version("dplyr", version = Sys.getenv("DPLYR_VERSION"))'
+RUN R -e 'devtools::install_version("sparklyr", version = Sys.getenv("SPARKLYR_VERSION"))'
 RUN R -e 'str_spark_version = Sys.getenv("SPARK_VERSION"); sparklyr::spark_install(str_spark_version)'
 
 # Tell rserver which R install to use and move spark install to rstudio user
