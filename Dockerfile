@@ -23,11 +23,8 @@ RUN echo 'options(repos = c(CRAN = "https://cran.rstudio.com"))' > .Rprofile
 RUN install2.r dplyr sparklyr
 
 # Install github releases
-RUN R -e 'ver_rlang = Sys.getenv("RLANG_VERSION"); remotes::install_github(file.path("tidyverse/rlang", ver_rlang, fsep = "@v"))'
-
-RUN R -e 'ver_dplyr = Sys.getenv("DPLYR_VERSION"); remotes::install_github(file.path("tidyverse/dplyr", ver_dplyr, fsep = "@v"))'
-
-RUN R -e 'ver_sparklyr = Sys.getenv("SPARKLYR_VERSION"); remotes::install_github(file.path("rstudio/sparklyr", ver_sparklyr, fsep = "@v"))'
+ADD install_github_version.r /tmp/
+RUN Rscript /tmp/install_github_version.r && rm /tmp/install_github_version.r
 
 # Install spark
 RUN R -e 'sparklyr::spark_install(Sys.getenv("SPARK_VERSION"))'
